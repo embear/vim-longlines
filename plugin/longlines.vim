@@ -55,6 +55,7 @@ if (!exists("g:LongLinesMargin"))
 endif
 
 " Section: Autocmd setup {{{1
+" to handle the case, when textwidth is modified in a displayed window
 autocmd CursorMoved,CursorMovedI * call <SID>LongLines()
 
 " Section: Highlight setup {{{1
@@ -77,13 +78,11 @@ function! s:LongLines()
       if len(w:LongLinesIds) == 0
         let w:LongLinesIds += [ matchadd('LongLinesWarning',  '\%>' . &textwidth . 'v.*\%' . (&textwidth + g:LongLinesMargin) . 'v') ]
         let w:LongLinesIds += [ matchadd('LongLinesError', '\%>' . (&textwidth + g:LongLinesMargin) . 'v.*') ]
-        echom "defining pattern"
       endif
     else
       if len(w:LongLinesIds) != 0
         for id in w:LongLinesIds
           call matchdelete(id)
-          echom "deleting pattern"
         endfor
         let w:LongLinesIds = []
       endif
@@ -100,6 +99,8 @@ function! LongLinesToggle()
   else
     let w:LongLinesEnabled = !w:LongLinesEnabled
   endif
+
+  call s:LongLines()
 endfunction
 
 " Function: LongLinesGlobalToggle() {{{2
@@ -107,6 +108,8 @@ endfunction
 " globally toggle on/off the highlighting
 function! LongLinesGlobalToggle()
   let g:LongLinesEnabled = !g:LongLinesEnabled
+
+  call s:LongLines()
 endfunction
 
 " Function: LongLinesEnabled() {{{2

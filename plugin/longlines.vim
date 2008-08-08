@@ -76,8 +76,8 @@ function! s:LongLines()
     endif
     if &textwidth > 0 && g:LongLinesEnabled != 0 && w:LongLinesEnabled != 0
       if len(w:LongLinesIds) == 0
-        let w:LongLinesIds += [ matchadd('LongLinesWarning',  '\%>' . &textwidth . 'v.*\%' . (&textwidth + g:LongLinesMargin) . 'v') ]
-        let w:LongLinesIds += [ matchadd('LongLinesError', '\%>' . (&textwidth + g:LongLinesMargin) . 'v.*') ]
+        let w:LongLinesIds += [ matchadd('LongLinesWarning',  '\%>' . &textwidth . 'v.*\%<' . (&textwidth + g:LongLinesMargin + 1) . 'v') ]
+        let w:LongLinesIds += [ matchadd('LongLinesError',    '\%>' . (&textwidth + g:LongLinesMargin) . 'v.*') ]
       endif
     else
       if len(w:LongLinesIds) != 0

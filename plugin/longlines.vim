@@ -44,6 +44,9 @@
 if (exists("g:loaded_longline") || &cp)
   finish
 endi
+if (v:version < 720)
+  finish
+endi
 let g:loaded_longline = "$Revision$"
 
 if (!exists("g:LongLinesEnabled"))

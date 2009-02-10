@@ -20,10 +20,10 @@
 "
 " Commands:
 "
-"   :Ll
+"   :LongLinesToggle
 "      Toggle long line highlighting in the current window.
 "
-"   :Lg
+"   :LongLinesGlobalToggle
 "      Toggle long line highlighting globally.
 "
 " Mappings:
@@ -43,10 +43,10 @@
 
 if (exists("g:loaded_longline") || &cp)
   finish
-endi
-if (v:version < 720)
-  finish
-endi
+endif
+"if (v:version < 720)
+"  finish
+"endif
 let g:loaded_longline = "$Revision$"
 
 if (!exists("g:LongLinesEnabled"))
@@ -96,7 +96,7 @@ endfunction
 " Function: LongLinesToggle() {{{2
 "
 " toggle on/off the highlighting
-function! LongLinesToggle()
+function! s:LongLinesToggle()
   if !exists("w:LongLinesEnabled")
     let w:LongLinesEnabled = 1
   else
@@ -109,7 +109,7 @@ endfunction
 " Function: LongLinesGlobalToggle() {{{2
 "
 " globally toggle on/off the highlighting
-function! LongLinesGlobalToggle()
+function! s:LongLinesGlobalToggle()
   let g:LongLinesEnabled = !g:LongLinesEnabled
 
   call s:LongLines()
@@ -123,11 +123,11 @@ function! LongLinesEnabled()
 endfunction
 
 " Section: Commands {{{1
-command! Ll call LongLinesToggle()
-command! Lg call LongLinesGlobalToggle()
+command! LongLinesToggle call s:LongLinesToggle()
+command! LongLinesGlobalToggle call s:LongLinesGlobalToggle()
 
 " Section: Mappings {{{1
-map <Leader>ll :call LongLinesToggle()<CR>
-map <Leader>lg :call LongLinesGlobalToggle()<CR>
+map <Leader>ll :LongLinesToggle<CR>
+map <Leader>lg :LongLinesGlobalToggle<CR>
 
 " vim600:fdm=marker:commentstring="\ %s:

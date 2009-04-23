@@ -44,9 +44,10 @@
 if (exists("g:loaded_longline") || &cp)
   finish
 endif
-"if (v:version < 720)
-"  finish
-"endif
+" matchadd() requires at least 7.1.40
+if !(v:version > 701 || (v:version == 701 && has("patch040")))
+  finish
+endif
 let g:loaded_longline = "$Revision$"
 
 if (!exists("g:LongLinesEnabled"))

@@ -19,6 +19,11 @@
 "   Refer to ':help add-plugin', ':help add-global-plugin' and ':help
 "   runtimepath' for more details about Vim plugins.
 "
+"   To show data about long lines in the status line add something like
+"   this to your .vimrc (beware this can be very slow for long files):
+"
+"     set statusline+=%([%{LongLinesStatusline()}]%)
+"
 " Commands: {{{2
 "
 "   :LongLinesToggle
@@ -137,12 +142,43 @@ function! s:LongLinesGlobalToggle()
   call s:LongLines()
 endfunction
 
-" Function: s:LongLinesEnabled() {{{2
+" Function: LongLinesEnabled() {{{2
 "
 " return if highlighting of too long lines is enabled
 "
 function! LongLinesEnabled()
   return (g:longlines_enabled && w:longlines_enabled)
+endfunction
+
+" Function: LongLinesStatusline() {{{2
+"
+" return a string for inclusion in status line with data about long lines
+"
+" return '' if no long lines
+" return '#x,$y if long lines are found, were x is the number of long lines
+" and y is the length of the longest line
+"
+function! LongLinesStatusline()
+  let l:statusline = ""
+
+  let l:longlines_list = []
+
+  if &textwidth > 0
+    let l:line = 1
+    while l:line <= line("$")
+      let l:len = virtcol([ l:line, "$", 0 ]) - 1
+      if l:len > &textwidth
+        let l:longlines_list += [ l:len ]
+      endif
+      let l:line += 1
+    endwhile
+  endif
+
+  if len(l:longlines_list) > 0
+    let l:statusline = '#' . len(l:longlines_list) . " " . '$' . max(l:longlines_list)
+  endif
+
+  return l:statusline
 endfunction
 
 " Function: s:LongLinesDebug(level, text) {{{2

@@ -1,5 +1,5 @@
 " Name:    longline.vim
-" Version: $Id$
+" Version: 0.1.0
 " Author:  Markus Braun <markus.braun@krawel.de>
 " Summary: Vim plugin to highlight too long lines
 " Licence: This program is free software; you can redistribute it and/or
@@ -51,7 +51,7 @@
 if (exists("g:loaded_longline") || &cp)
   finish
 endif
-let g:loaded_longline = "$Revision$"
+let g:loaded_longline = 1
 
 " check for correct vim version {{{2
 " matchadd() requires at least 7.1.40

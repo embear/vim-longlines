@@ -113,8 +113,10 @@ function! s:LongLines()
     endif
     if &textwidth > 0 && g:longlines_enabled != 0 && w:longlines_enabled != 0
       if len(w:LongLinesIds) == 0
-        let w:LongLinesIds += [ matchadd('LongLinesWarning',  '\%>' . &textwidth . 'v.*\%<' . (&textwidth + g:longlines_margin + 1) . 'v') ]
-        let w:LongLinesIds += [ matchadd('LongLinesError',    '\%>' . (&textwidth + g:longlines_margin) . 'v.*') ]
+        if g:longlines_margin > 0
+          let w:LongLinesIds += [ matchadd('LongLinesWarning',  '.\%>' . (&textwidth + 1) . 'v.*\%<' . (&textwidth + g:longlines_margin + 2) . 'v') ]
+        endif
+        let w:LongLinesIds += [ matchadd('LongLinesError',    '.\%>' . (&textwidth + g:longlines_margin + 1) . 'v.*') ]
       endif
     else
       if len(w:LongLinesIds) != 0
